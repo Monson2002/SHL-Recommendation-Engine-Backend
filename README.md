@@ -1,9 +1,10 @@
 ---
-title: shl-backend
-emoji: 🔍
+title: shl-assessment-backend
+emoji: ⚡
 colorFrom: blue
-colorTo: pink
-sdk: docker
+colorTo: purple
+sdk: fastapi
+sdk_version: "1.0"
 app_file: app.py
 pinned: false
 ---
