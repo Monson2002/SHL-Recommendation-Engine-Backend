@@ -5,8 +5,9 @@ from src.dataloader import load_data
 from src.embedding import EmbeddingManager
 from src.vector_store import VectorStore
 from src.retrive import Retriever               
-from src.llm_infer import shl_rag  
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from src.llm_infer import shl_rag  
+from src.recommend_tests import recommend_tests
+# from langchain_google_genai import ChatGoogleGenerativeAI
 
 docs = load_data("Data/RAG")
 print(f'\nLength of docs found: {len(docs)}')
@@ -31,9 +32,14 @@ store.add_docs(
 
 retriever = Retriever(vector_store=store, embedding_manager=embedder)
 
-load_dotenv()
-llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+# load_dotenv()
+# llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
 
 question = "Suggest me some data entry test that measures the ability to process receivables and invoices\n"
-llm_ans = shl_rag(question, retriever, llm, 3)
-print(f'\n{llm_ans}\n')
+# llm_ans = shl_rag(question, retriever, llm, 10)
+# print(f'\n{llm_ans}\n')
+
+results = recommend_tests(question, retriever, top_k=10)
+
+for i, r in enumerate(results, 1):
+    print(f"{i}. {r['assessment_name']} — {r['assessment_url']}")
