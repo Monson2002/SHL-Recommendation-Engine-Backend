@@ -1,6 +1,7 @@
 import uvicorn
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.embedding import EmbeddingManager
 from src.vector_store import VectorStore
@@ -13,6 +14,13 @@ store = VectorStore(collection_name="shl_assessments", persist_dir="./Data/RAG/v
 retriever = Retriever(store, embedder)
 
 app = FastAPI(title="SHL Assessment Recommender")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Recommendation(BaseModel):
     assessment_name: str

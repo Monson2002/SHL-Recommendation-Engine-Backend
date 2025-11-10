@@ -1,5 +1,12 @@
-# SHL-Assessment-Recommendation-Engine
+---
+title: SHL Assessment Backend
+emoji: ⚙️
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+pinned: false
+---
 
-run  python .\src\rag_corpus.py
+# SHL Assessment Backend (FastAPI)
 
-then python .\app.py
+This Space hosts the SHL Assessment Recommendation API built using FastAPI.
