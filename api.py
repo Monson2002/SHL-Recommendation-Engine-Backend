@@ -25,6 +25,12 @@ class RecommendRequest(BaseModel):
     query: str
     top_k: int = 10
 
+@app.get('/health', status_code=200)
+def get_health():
+    return {
+        "status": 'healthy'
+    }
+
 @app.post("/recommend")
 def get_recommendations(request: RecommendRequest):
     if not request.query.strip():

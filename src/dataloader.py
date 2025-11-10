@@ -15,7 +15,7 @@ class SimpleJSONLLoader:
                 if line.strip():
                     obj = json.loads(line)
                     docs.append(Document(
-                        page_content=obj["page_content"],
+                        page_content=obj["text"],
                         metadata=obj.get("metadata", {})
                     ))
         return docs
@@ -67,7 +67,7 @@ def load_data(data_dir: str):
             #     jq_schema='.',
             #     text_content=False
             # )
-            loader = JSONLinesLoader(str(file))
+            loader = JSONLoader(str(file), jq_schema='.')
             loaded = loader.load()
             for page in loaded:
                 page.metadata['source_file'] = file.name
