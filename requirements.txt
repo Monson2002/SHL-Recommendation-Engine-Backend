@@ -1,0 +1,13 @@
+beautifulsoup4
+requests
+pandas
+numpy
+seaborn
+matplotlib
+langchain
+langchain-community
+sentence-transformers
+jq
+chromadb
+dotenv
+langchain-google-genai
