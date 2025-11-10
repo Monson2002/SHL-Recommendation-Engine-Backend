@@ -24,11 +24,15 @@ embeddings = embedder.generate_embeddings(texts)
 
 store = VectorStore(collection_name="shl_assessments", persist_dir='./Data/RAG/vector_store')
 
-store.add_docs(
-    # docs=chunks,
-    docs=docs,
-    embeddings=np.array(embeddings)
-)
+if store.count() == 0:
+    store.add_docs(
+        # docs=chunks,
+        docs=docs,
+        embeddings=np.array(embeddings)
+    )
+    print("\nNew embeddings. Adding to VectorStore.")
+else:
+    print("\nVector store already contains embeddings. Skipping add.\n")
 
 retriever = Retriever(vector_store=store, embedding_manager=embedder)
 
@@ -42,4 +46,6 @@ question = "Suggest me some data entry test that measures the ability to process
 results = recommend_tests(question, retriever, top_k=10)
 
 for i, r in enumerate(results, 1):
-    print(f"{i}. {r['assessment_name']} — {r['assessment_url']}")
+    name = r.get("name") or r.get("assessment_name")
+    url  = r.get("url")  or r.get("assessment_url")
+    print(f"{i}. {name} — {url}")

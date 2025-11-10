@@ -13,6 +13,10 @@ class VectorStore:
         self.collection = None
         self._initialize_store()
 
+    def count(self):
+        """Return number of embeddings stored in this collection."""
+        return self.collection.count()
+
     def _initialize_store(self):
         try:
             os.makedirs(self.persist_dir, exist_ok=True)

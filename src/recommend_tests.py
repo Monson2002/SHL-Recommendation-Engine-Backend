@@ -1,63 +1,46 @@
 from typing import List, Dict
 from src.retrive import Retriever
 
-def recommend_tests(
-    query: str,
-    retriever: Retriever,
-    top_k: int = 10,
-    min_results: int = 5,
-    filter_packaged: bool = True
-) -> List[Dict]:
-    """
-    Pure similarity-based recommendation engine.
-    Returns top_k most similar SHL assessments (name + URL only).
-
-    Args:
-        query (str): Natural language query or job description.
-        retriever (Retriever): Your Retriever object.
-        top_k (int): Maximum number of results to return.
-        min_results (int): Minimum required results (assignment requires ≥5).
-        filter_packaged (bool): Remove "Pre-packaged Job Solutions".
-                                These usually have words like 'Solution' or are multi-assessment bundles.
-
-    Returns:
-        List[Dict]: List of assessments with {assessment_name, assessment_url}.
-    """
-
-    results = retriever.retrieve(query=query, k=top_k)
-
+def recommend_tests(query: str, retriever, top_k: int = 10):
+    results = retriever.retrieve(query=query, k=50)  
+    
+    seen_urls = set()
     recommendations = []
+
     for r in results:
-        name = r["metadata"].get("assessment_name", "")
-        url = r["metadata"].get("url", "")
+        meta = r["metadata"]
+        url = meta.get("url", "")
 
-        if not name or not url:
+        if not url or url in seen_urls:
             continue
+        seen_urls.add(url)
 
-        # Optional: filter pre-packaged job solutions
-        if filter_packaged:
-            # If the name includes "Solution" → exclude
-            if "solution" in name.lower():
-                continue
+        # convert test_type to list
+        test_type_raw = meta.get("test_type", "")
+        test_type = [t.strip() for t in test_type_raw.split(",") if t.strip()]
 
-        recommendations.append({
-            "assessment_name": name,
-            "assessment_url": url
-        })
+        # extract duration as an integer
+        length_raw = meta.get("assessment_length", "")
+        duration = None
+        if "=" in length_raw:
+            try:
+                duration = int(length_raw.split("=")[-1].strip())
+            except:
+                duration = None
 
-    # Ensure minimum results (fallback: allow packaged if needed)
-    if len(recommendations) < min_results:
-        # re-add packaged solutions to fill gaps
-        for r in results:
-            name = r["metadata"].get("assessment_name", "")
-            url = r["metadata"].get("url", "")
-            if {"assessment_name": name, "assessment_url": url} not in recommendations:
-                recommendations.append({
-                    "assessment_name": name,
-                    "assessment_url": url
-                })
-            if len(recommendations) >= min_results:
-                break
+        item = {
+            "url": url,
+            "name": meta.get("assessment_name", ""),
+            "description": meta.get("description", ""),
+            "duration": duration,
+            "remote_support": "Yes",
+            "adaptive_support": "No",
+            "test_type": test_type
+        }
 
-    # respect maximum k
-    return recommendations[:top_k]
+        recommendations.append(item)
+
+        if len(recommendations) >= top_k:
+            break
+
+    return recommendations

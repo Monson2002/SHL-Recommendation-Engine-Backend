@@ -11,3 +11,5 @@ jq
 chromadb
 dotenv
 langchain-google-genai
+fastapi
+pydantic

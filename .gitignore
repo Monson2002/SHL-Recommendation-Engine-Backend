@@ -2,3 +2,4 @@
 
 shl-backend/
 Data/RAG/
+__pycache__/
