@@ -33,6 +33,10 @@ class RecommendRequest(BaseModel):
     query: str
     top_k: int = 10
 
+@app.get("/")
+def root():
+    return {"message": "SHL Assessment Recommender API is running"}
+
 @app.get('/health', status_code=200)
 def get_health():
     return {
