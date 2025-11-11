@@ -1,5 +1,5 @@
 def recommend_tests(query: str, retriever, top_k: int = 10):
-    results = retriever.retrieve(query=query, k=50)
+    results = retriever.retrieve(query=query, k=top_k)
 
     seen = set()
     output = []
