@@ -1,5 +1,5 @@
 .env
 
-shl-backend/
+shl-backend-venv/
 Data/RAG/
 __pycache__/
