@@ -1,12 +1,10 @@
 ---
-title: SHL Assessment Backend
+title: SHL Backend
 emoji: 🏆
-colorFrom: purple
-colorTo: indigo
+colorFrom: blue
+colorTo: blue
 sdk: docker
 pinned: false
 ---
 
-# SHL Assessment Backend (FastAPI)
-
-This Space hosts the SHL Assessment Recommendation API built using FastAPI.
+Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
