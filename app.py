@@ -13,7 +13,7 @@ embedder = EmbeddingManager("all-MiniLM-L6-v2")
 store = VectorStore(collection_name="shl_assessments", persist_dir="./Data/RAG/vector_store")
 retriever = Retriever(store, embedder)
 
-app = FastAPI(title="SHL Assessment Recommender")
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
