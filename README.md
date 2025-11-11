@@ -1,11 +1,9 @@
 ---
-title: shl-assessment-backend
-emoji: ⚡
-colorFrom: blue
-colorTo: purple
+title: SHL Assessment Backend
+emoji: 🏆
+colorFrom: purple
+colorTo: indigo
 sdk: docker
-sdk_version: "1.0"
-app_file: app.py
 pinned: false
 ---
 
